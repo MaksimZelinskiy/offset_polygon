@@ -3,7 +3,6 @@ from tkinter import messagebox
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-
 # Зсув полігону
 def shift_polygon(polygon, segment_index, shift_amount):
 
@@ -36,18 +35,26 @@ def visualize_polygon(polygon, title):
     # стирання попереднього
     ax.clear()
 
-    # цикл малювання та зʼєднання крапок
-    prv_element = None
-    for element in polygon:
+    if len(polygon) > 1:
 
-        if prv_element != None:
+        # цикл малювання та зʼєднання крапок
+        prv_element = None
+        for element in polygon:
 
-            # зʼєднання попереднього елемента з новим
-            ax.plot([element[0], prv_element[0]], [element[1], prv_element[1]],
-                     marker='o', linestyle='-', color='b')
+            if prv_element != None:
 
-        # створення попереднього елемента
-        prv_element = element
+                # зʼєднання попереднього елемента з новим
+                ax.plot([element[0], prv_element[0]], [element[1], prv_element[1]],
+                         marker='o', linestyle='-', color='b')
+
+            # створення попереднього елемента
+            prv_element = element
+
+    else:
+
+        for element in polygon:
+            ax.plot([element[0]], [element[1]],
+                    marker='o', linestyle='-', color='b')
 
     # створення заголовка
     ax.set_title(title)
@@ -77,11 +84,62 @@ def shift_button_clicked():
     # змінення полігону
     polygon = shifted_polygon
     # візуалізація полігону
-    visualize_polygon(polygon, "Полігон (після зсуву)")
+    visualize_polygon(polygon, "Полігон після зсуву")
 
 
-# стандартний полігон
-polygon = [(10, 20), (20, 15), (30, 23), (22, 40), (10, 20)]
+def start_shift_clicked():
+    global polygon
+
+    global segment_index_entry
+    global shift_amount_entry
+
+    # Створення елементів (кнопки, лейбели і тд.)
+    segment_index_label = tk.Label(main_w, text="Індекс сегменту:")
+    segment_index_label.pack()
+    segment_index_entry = tk.Entry(main_w, background='#2edaff')
+    segment_index_entry.pack()
+
+    shift_amount_label = tk.Label(main_w, text="Величину для зсуву:")
+    shift_amount_label.pack()
+    shift_amount_entry = tk.Entry(main_w, background='#2edaff')
+    shift_amount_entry.pack()
+
+    shift_button = tk.Button(main_w, text="Зсунути сегмент", command=shift_button_clicked)
+    shift_button.pack()
+
+    # візуалізація початкового полігону
+    visualize_polygon(polygon, "Полігон")
+
+    # видалення елементів (кнопки, лейбели і тд.) для створення полігону
+    add_button.pack_forget()
+    start_button.pack_forget()
+
+    x_dot_label.pack_forget()
+    y_dot_label.pack_forget()
+
+    x_dot_entry.pack_forget()
+    y_dot_entry.pack_forget()
+
+
+def add_dot_button_clicked():
+    try:
+        x_amount = int(x_dot_entry.get())
+        y_amount = float(y_dot_entry.get())
+
+    except ValueError:
+        # помилка
+        messagebox.showerror("У вас сталося помилка", "Неправильний формат вводу.\n\nВведіть цифру.")
+        return
+
+    global polygon
+
+    # добавлення нових крапок для полігону
+    polygon.append((x_amount, y_amount))
+    visualize_polygon(polygon, "Полігон")
+
+
+# полігон
+polygon = []
 
 # Створення вікна
 main_w = tk.Tk()
@@ -93,22 +151,21 @@ ax = figure.add_subplot(111)
 fig_canvas = FigureCanvasTkAgg(figure, master=main_w)
 fig_canvas.get_tk_widget().pack()
 
-# Створення елементів (кнопки, лейбели і тд.)
-segment_index_label = tk.Label(main_w, text="Індекс сегменту:")
-segment_index_label.pack()
-segment_index_entry = tk.Entry(main_w, background='#2edaff')
-segment_index_entry.pack()
+# Створення елементів для додавання крапок (кнопки, лейбели і тд.)
+x_dot_label = tk.Label(main_w, text="Введіть точки по x для полігону:")
+x_dot_label.pack()
+x_dot_entry = tk.Entry(main_w, background='#2edaff')
+x_dot_entry.pack()
 
-shift_amount_label = tk.Label(main_w, text="Величину для зсуву:")
-shift_amount_label.pack()
-shift_amount_entry = tk.Entry(main_w, background='#2edaff')
-shift_amount_entry.pack()
+y_dot_label = tk.Label(main_w, text="Введіть точки по y для полігону:")
+y_dot_label.pack()
+y_dot_entry = tk.Entry(main_w, background='#2edaff')
+y_dot_entry.pack()
 
-shift_button = tk.Button(main_w, text="Зсунути сегмент", command=shift_button_clicked)
-shift_button.pack()
-
-# візуалізація початкового полігону
-visualize_polygon(polygon, "Полігон")
+start_button = tk.Button(main_w, text="Почати зсув", command=start_shift_clicked)
+add_button = tk.Button(main_w, text="Добавити", command=add_dot_button_clicked)
+add_button.pack()
+start_button.pack()
 
 # Відкриття
 main_w.mainloop()
