@@ -3,6 +3,7 @@ from tkinter import messagebox
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
+
 # Зсув полігону
 def shift_polygon(polygon, segment_index, shift_amount):
 
@@ -76,7 +77,8 @@ def shift_button_clicked():
     # змінення полігону
     polygon = shifted_polygon
     # візуалізація полігону
-    visualize_polygon(polygon, "Полігон після зсуву")
+    visualize_polygon(polygon, "Полігон (після зсуву)")
+
 
 # стандартний полігон
 polygon = [(10, 20), (20, 15), (30, 23), (22, 40), (10, 20)]
@@ -105,7 +107,8 @@ shift_amount_entry.pack()
 shift_button = tk.Button(main_w, text="Зсунути сегмент", command=shift_button_clicked)
 shift_button.pack()
 
-visualize_polygon(polygon, "Початковий полігон")
+# візуалізація початкового полігону
+visualize_polygon(polygon, "Полігон")
 
 # Відкриття
 main_w.mainloop()
