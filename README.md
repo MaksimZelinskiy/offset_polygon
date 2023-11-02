@@ -8,12 +8,10 @@ Python програма для обробки полігонів. Створен
 
 ### 1. Клонуйте репозиторій:
 
-     ```bash
      git clone https://github.com/MaksimZelinskiy/offset_polygon.git
 
 ### 2. Створіть навколишнє середовище:
    
-     ```bash
      python3 -m venv venv
 
 ### 3. Підключіться до нього:
@@ -26,7 +24,6 @@ Python програма для обробки полігонів. Створен
 
 ### 4. Встановіть необхідні залежності:
 
-     ```bash
      pip install -r requirements.txt
 
 ### 5. Запустіть програму:
