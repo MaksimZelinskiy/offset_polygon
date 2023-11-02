@@ -10,7 +10,7 @@ Python програма для обробки полігонів. Створен
 
      git clone https://github.com/MaksimZelinskiy/offset_polygon.git
 
-### 2. Створіть навколишнє середовище:
+### 2. Створіть віртуальне середовище venv:
    
      python3 -m venv venv
 
