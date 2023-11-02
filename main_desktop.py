@@ -123,7 +123,7 @@ def start_shift_clicked():
 
 def add_dot_button_clicked():
     try:
-        x_amount = int(x_dot_entry.get())
+        x_amount = float(x_dot_entry.get())
         y_amount = float(y_dot_entry.get())
 
     except ValueError:
