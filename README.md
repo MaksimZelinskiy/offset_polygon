@@ -29,4 +29,4 @@ Python програма для обробки полігонів. Створен
 ### 5. Запустіть програму:
 
    ```bash
-   python main_desktop.py
+   python main.py
