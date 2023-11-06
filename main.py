@@ -1,25 +1,29 @@
 from polygon import Polygon_App
+from points import Points
 
 
 def main():
-    polygon = Polygon_App(
-        [(29, 20), (10, 2), (15, 32)]
-    )
-    polygon.visualize("Початковий полігон")
+    polygon = [(10, 10), (15, 25), (20, 30), (27, 20), (25, 5), (10, 10)]
+
+    polygon_app = Polygon_App(polygon=Points(polygon))
+    polygon_app.visualize("Початковий полігон")
 
     cycle = True
     while cycle:
         try:
             segment_index = int(input("Введіть індекс сегменту для зсуву: "))
-            offset_amount = float(input("Введіть величину зсуву: "))
+            offset_amount = float(input(f"Введіть величину зсуву для сегмента "
+                                        f"{''.join(polygon_app.polygon.labels[segment_index-1:segment_index+1])}: "))
 
-            polygon.offset_segment(segment_index, offset_amount)
+            new_segment = polygon_app.offset_search(segment_index, offset_amount)
+            polygon_app.offset_segment(new_segment, segment_index)
+
             cycle = False
 
         except ValueError:
             print("Неправильний формат вводу.")
 
-    polygon.visualize("Полігон після offset")
+    polygon_app.visualize("Полігон після offset")
 
 
 if __name__ == "__main__":
